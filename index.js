@@ -1,18 +1,5 @@
 #!/usr/bin/env node
 
-
-// /*
-// /$$$$$$$$ /$$$$$$ / $$$$$$$ / $$$$$$$$ / $$$$$$ / $$ / $$ / $$$$$$ / $$$$$$$ / $$
-// | $$_____/|_  $$_/| $$__  $$| $$_____/ /$$__  $$| $$  | $$|_  $$_/| $$__  $$|__/
-// | $$        | $$  | $$  \ $$| $$      | $$  \__/| $$  | $$  | $$  | $$  \ $$ /$$  /$$$$$$
-// | $$$$$     | $$  | $$$$$$$/| $$$$$   |  $$$$$$ | $$$$$$$$  | $$  | $$$$$$$/| $$ /$$__  $$
-// | $$__/     | $$  | $$__  $$| $$__/    \____  $$| $$__  $$  | $$  | $$____/ | $$| $$  \ $$
-// | $$        | $$  | $$  \ $$| $$       /$$  \ $$| $$  | $$  | $$  | $$      | $$| $$  | $$
-// | $$       /$$$$$$| $$  | $$| $$$$$$$$|  $$$$$$/| $$  | $$ /$$$$$$| $$ /$$  | $$|  $$$$$$/
-// |__/      |______/|__/  |__/|________/ \______/ |__/  |__/|______/|__/|__/  |__/ \______/
-// */
-
-
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 import gradient from 'gradient-string';
@@ -21,32 +8,33 @@ import figlet from 'figlet';
 import { createSpinner } from 'nanospinner';
 
 let playerName;
+let playerId;
 
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 
 async function welcome() {
-  const rainbowTitle = chalkAnimation.rainbow(
-    'Who Wants To Be A JavaScript Millionaire? \n'
+  const rainbowTitle = chalkAnimation.radar(
+    'JC DNS Script - MVP? \n'
   );
 
   await sleep();
   rainbowTitle.stop();
 
   console.log(`
-    ${chalk.bgBlue('HOW TO PLAY')} 
-    I am a process on your computer.
-    If you get any question wrong I will be ${chalk.bgRed('killed')}
-    So get all the questions right...
+    ${chalk.bgBlue('HOW TO Run')} 
+    as each "question" (TASK) is ran we will have completed something 
+    If at any time a task fails we will be processed out as - ${chalk.bgRed('killed')}
+    This May change as the Task Function is built
 
   `);
 }
 
 async function handleAnswer(isCorrect) {
-  const spinner = createSpinner('Checking answer...').start();
+  const spinner = createSpinner('Processing Task...').start();
   await sleep();
 
   if (isCorrect) {
-    spinner.success({ text: `Nice work ${playerName}. That's a legit answer` });
+    spinner.success({ text: `Nice work ${playerName}. Let's Finish This!` });
   } else {
     spinner.error({ text: `💀💀💀 Game over, you lose ${playerName}!` });
     process.exit(1);
@@ -59,11 +47,21 @@ async function askName() {
     type: 'input',
     message: 'What is your name?',
     default() {
-      return 'Player';
+      return 'Player-User';
+    },
+  });
+
+  const idAnswers = await inquirer.prompt({
+    name: 'user_id',
+    type: 'input',
+    message: 'What is the Id?',
+    default() {
+      return 'x0011';
     },
   });
 
   playerName = answers.player_name;
+  playerId = idAnswers.user_id;
 }
 
 function winner() {
@@ -73,11 +71,27 @@ function winner() {
 
     console.log(
       chalk.green(
-        `Programming isn't about what you know; it's about making the command line look cool`
-      )
+        `🐍🐍🐍🐍🐍Programming isn't about what you know; it's about making the command line look cool🐍🐍🐍🐍🐍`
+      ),
+        chalk.red(
+            `its the ascii snakese you meet on the way!`
+        )
     );
     process.exit(0);
   });
+}
+async function task1() {
+  const answers = await inquirer.prompt({
+    name: 'task_1',
+    type: 'list',
+    message: 'Access ClubHouseShortcut\n',
+    choices: [
+      'DM-Link',
+      'Personal-Link',
+    ],
+  });
+
+  return handleAnswer(answers.task_1 === 'Personal-Link');
 }
 
 async function question1() {
@@ -96,16 +110,6 @@ async function question1() {
   return handleAnswer(answers.question_1 === 'Dec 4th, 1995');
 }
 
-async function question2() {
-  const answers = await inquirer.prompt({
-    name: 'question_2',
-    type: 'list',
-    message: 'What is x? var x = 1_1 + "1" + Number(1)\n',
-    choices: ['4', '"4"', '"1111"', '69420'],
-  });
-  return handleAnswer(answers.question_2 === '"1111"');
-}
-
 async function question3() {
   const answers = await inquirer.prompt({
     name: 'question_3',
@@ -117,42 +121,14 @@ async function question3() {
   return handleAnswer(answers.question_3 === 'undefined');
 }
 
-async function question4() {
-  const answers = await inquirer.prompt({
-    name: 'question_4',
-    type: 'list',
-    message: 'Which of the following is NOT a primitive type?\n',
-    choices: [
-      'boolean',
-      'number',
-      'null',
-      'object', // Correct
-    ],
-  });
-  return handleAnswer(answers.question_4 === 'object');
-}
-
-async function question5() {
-  const answers = await inquirer.prompt({
-    name: 'question_5',
-    type: 'list',
-    message:
-      'JS is a high-level single-threaded, garbage-collected,\n' +
-      'interpreted(or just-in-time compiled), prototype-based,\n' +
-      'multi-paradigm, dynamic language with a ____ event loop\n',
-    choices: ['multi-threaded', 'non-blocking', 'synchronous', 'promise-based'],
-  });
-
-  return handleAnswer(answers.question_5 === 'non-blocking');
-}
-
 // Run it with top-level await
 console.clear();
 await welcome();
 await askName();
+await task1();
 await question1();
-await question2();
-await question3();
-await question4();
-await question5();
+// await question2();
+// await question3();
+// await question4();
+// await question5();
 winner();

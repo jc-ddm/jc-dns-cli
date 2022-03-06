@@ -1,15 +1,25 @@
-# JavaScript Millionaire CLI Tool
+# DNS CLI Tool
 
 A super fancy CLI tool. 
 
+
+
+
+supporting guide: 
 Watch the full [Node.js CLI Tutorial](https://youtu.be/_oHByo8tiEY) video on YouTube. 
 
 
 
-## Take the Quiz
+## Run from local console
 
 ```
-npx firequiz
+node . 
+```
+
+## Take a copy
+
+```
+npx 
 ```
 
 ## Packages Used

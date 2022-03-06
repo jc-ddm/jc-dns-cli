@@ -1,12 +1,11 @@
 {
-  "name": "firequiz",
-  "version": "0.0.4",
-  "description": "Who wants to be a JavaScript millionaire?",
-  "homepage": "https://fireship.io",
+  "name": "jc-dns-cli",
+  "version": "0.0.1",
+  "description": "Handle Do-nothing Script for Multi Source Types",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fireship-io/javascript-millionaire"
+    "url": "https://github.com/jc-ddm/jc-dns-cli"
   },
   "main": "index.js",
   "scripts": {
